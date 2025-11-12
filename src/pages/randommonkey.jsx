@@ -52,7 +52,6 @@ export default function RandomMonkey() {
         }
         const data = await res.json();
         setSummary(data.extract || "No summary available.");
-        // prefer thumbnail, fallback to original image
         setThumbnail(data.thumbnail?.source || data.originalimage?.source || null);
       } catch (err) {
         if (err.name !== "AbortError") setError(err.message);
@@ -113,4 +112,3 @@ export default function RandomMonkey() {
     </div>
   );
 }
-// ...existing code...
