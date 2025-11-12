@@ -7,7 +7,18 @@ const DEFAULT_MONKEYS = [
   "Howler monkey",
   "Spider monkey",
   "Rhesus macaque",
-  "Tamarin"
+  "Tamarin",
+  "Orangutan",
+  "Gibbon",
+  "Squirrel monkey",
+  "Proboscis monkey",
+  "Colobus monkey",
+  "Golden lion tamarin",
+  "Marmoset",
+  "Mandrill",
+  "Gelada",
+  "Pygmy marmoset",
+  "Uakari"
 ];
 
 export default function RandomMonkey() {
@@ -55,56 +66,50 @@ export default function RandomMonkey() {
   }, [monkey]);
 
   return (
-    <div style={{ padding: 16 }}>
-      <h1>Random Monkey</h1>
+    <div>
+      <div className="card-style mb-3 p-3">
+        <h1>Random Monkey</h1>
 
-      <div style={{ marginBottom: 12 }}>
-        <button onClick={pickRandom} style={{ padding: "8px 12px", marginRight: 8 }}>
-          Get random monkey
-        </button>
-        <button
-          onClick={() => {
-            setMonkey(null);
-            setSummary(null);
-            setThumbnail(null);
-            setError(null);
-          }}
-          style={{ padding: "8px 12px" }}
-        >
-          Clear
-        </button>
-      </div>
-
-      {loading && <p>Loading info...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!monkey && !loading && <p style={{ color: "#666" }}>Click "Get random monkey" to see a monkey with image and short summary.</p>}
-
-      {monkey && !loading && !error && (
-        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-          {thumbnail && (
-            <img
-              src={thumbnail}
-              alt={monkey}
-              style={{ width: 180, height: "auto", borderRadius: 6, objectFit: "cover" }}
-            />
-          )}
-          <div>
-            <h2 style={{ marginTop: 0 }}>{monkey}</h2>
-            <p style={{ maxWidth: 560 }}>{summary}</p>
-            <p style={{ fontSize: "0.9rem", color: "#555" }}>
-              Source:{" "}
-              <a
-                href={`https://en.wikipedia.org/wiki/${encodeURIComponent(monkey)}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Wikipedia — {monkey}
-              </a>
-            </p>
-          </div>
+        <div className="mb-3">
+          <button className="btn btn-primary me-2" onClick={pickRandom}>Get random monkey</button>
+          <button
+            className="btn btn-outline-secondary"
+            onClick={() => {
+              setMonkey(null);
+              setSummary(null);
+              setThumbnail(null);
+              setError(null);
+            }}
+          >
+            Clear
+          </button>
         </div>
-      )}
+
+        {loading && <p>Loading info...</p>}
+        {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
+
+        {!monkey && !loading && <p className="muted">Click "Get random monkey" to see a monkey with image and short summary.</p>}
+
+        {monkey && !loading && !error && (
+          <div className="d-flex flex-column flex-md-row gap-3">
+            {thumbnail && (
+              <img
+                src={thumbnail}
+                alt={monkey}
+                className="responsive"
+                style={{ width: 320, maxWidth: '100%', borderRadius: 8, objectFit: 'cover' }}
+              />
+            )}
+            <div>
+              <h2 className="mb-1">{monkey}</h2>
+              <p style={{ maxWidth: 640 }}>{summary}</p>
+              <p className="muted small">
+                Source: <a className="accent" href={`https://en.wikipedia.org/wiki/${encodeURIComponent(monkey)}`} target="_blank" rel="noreferrer">Wikipedia — {monkey}</a>
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

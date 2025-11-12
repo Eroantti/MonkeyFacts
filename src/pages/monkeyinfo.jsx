@@ -7,7 +7,18 @@ const DEFAULT_MONKEYS = [
   "Howler monkey",
   "Spider monkey",
   "Rhesus macaque",
-  "Tamarin"
+  "Tamarin",
+  "Orangutan",
+  "Gibbon",
+  "Squirrel monkey",
+  "Proboscis monkey",
+  "Colobus monkey",
+  "Golden lion tamarin",
+  "Marmoset",
+  "Mandrill",
+  "Gelada",
+  "Pygmy marmoset",
+  "Uakari"
 ];
 
 export default function MonkeyInfo() {
@@ -55,57 +66,57 @@ export default function MonkeyInfo() {
   }, [query]);
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Monkey Info</h1>
+    <div>
+      <div className="card-style mb-4">
+        <h1>Monkey Info</h1>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={{ marginRight: "0.5rem" }}>
-          Choose a monkey:
-        </label>
-        <select
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{ marginRight: "1rem" }}
-        >
-          {DEFAULT_MONKEYS.map((m) => (
-            <option key={m} value={m}>{m}</option>
-          ))}
-        </select>
+        <div className="d-flex flex-wrap align-items-center mb-3 gap-2">
+          <label className="me-2">Choose a monkey:</label>
+          <select
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="form-select w-auto me-3"
+          >
+            {DEFAULT_MONKEYS.map((m) => (
+              <option key={m} value={m}>{m}</option>
+            ))}
+          </select>
 
-        <label style={{ marginRight: "0.5rem" }}>
-          or search:
-        </label>
-        <input
-          type="text"
-          placeholder="Type species name and press Enter"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") setQuery(e.target.value.trim());
-          }}
-          style={{ width: 220 }}
-        />
-      </div>
-
-      {loading && <p>Loading summary...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!loading && !error && summary && (
-        <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-          {thumbnail && (
-            <img
-              src={thumbnail}
-              alt={query}
-              style={{ width: 180, height: "auto", borderRadius: 6 }}
-            />
-          )}
-          <div>
-            <h2>{query}</h2>
-            <p>{summary}</p>
-            <p style={{ fontSize: "0.9rem", color: "#555" }}>
-              Source: <a href={`https://en.wikipedia.org/wiki/${encodeURIComponent(query)}`} target="_blank" rel="noreferrer">Wikipedia</a>
-            </p>
-          </div>
+          <label className="me-2">or search:</label>
+          <input
+            type="text"
+            placeholder="Type species name and press Enter"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") setQuery(e.target.value.trim());
+            }}
+            className="form-control w-auto"
+            style={{ minWidth: 180 }}
+          />
         </div>
-      )}
+
+        {loading && <p>Loading summary...</p>}
+        {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
+
+        {!loading && !error && summary && (
+          <div className="d-flex flex-column flex-md-row gap-3">
+            {thumbnail && (
+                <img
+                  src={thumbnail}
+                  alt={query}
+                  className="responsive"
+                  style={{ width: 320, maxWidth: '100%', height: "auto", borderRadius: 8, objectFit: 'cover' }}
+                />
+              )}
+            <div>
+              <h2 className="mb-1">{query}</h2>
+              <p>{summary}</p>
+              <p className="muted small">
+                Source: <a className="accent" href={`https://en.wikipedia.org/wiki/${encodeURIComponent(query)}`} target="_blank" rel="noreferrer">Wikipedia</a>
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

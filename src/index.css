@@ -1,11 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Caesar+Dressing&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --ff-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --ff-display: 'Caesar Dressing', 'Cinzel Decorative', 'Playfair Display', Georgia, serif;
+  --bg-dark: #3c6930;         /* user-requested background green */
+  --bg-mid: #0b4f2f;          /* mid leaf green */
+  --bg-light: #eaf6e9;        /* very light leaf / paper */
+  --muted: #a7c7a0;           /* softer green for captions */
+  --accent: #f2b705;          
+  --card-bg: rgba(10,40,20,0.6);
+  --nav-1: #053018;
+  --nav-2: #0b4f2f;
+
+  font-family: var(--ff-sans);
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgba(246,246,240,0.98);
+  background-color: var(--bg-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,25 +28,35 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--accent);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #e9c94a;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg-dark);
+  /* subtle leafy gradient */
+  background-image: radial-gradient(circle at 10% 10%, rgba(15,80,40,0.35), transparent 15%),
+                    radial-gradient(circle at 90% 80%, rgba(5,48,24,0.35), transparent 18%),
+                    linear-gradient(180deg, var(--bg-mid), var(--bg-dark));
+  color: rgba(246,246,240,0.98);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-family: var(--ff-display);
+  font-size: 2.6rem;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 14px rgba(2,8,4,0.7);
+  letter-spacing: 0.6px;
 }
+
+/* decorative prefix removed — headings now use the display font only */
 
 button {
   border-radius: 8px;
@@ -42,12 +65,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: rgba(255,255,255,0.04);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: rgba(244,211,94,0.6);
 }
 button:focus,
 button:focus-visible {
@@ -65,4 +88,66 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* utility classes used by pages */
+.page-container {
+  padding: 2rem 1rem;
+}
+
+.card-style {
+  background: linear-gradient(180deg, rgba(20,70,40,0.5), rgba(5,30,18,0.7));
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(2,8,4,0.7);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.card-style:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(2,8,4,0.8);
+}
+
+.muted { color: var(--muted); }
+.accent { color: var(--accent); }
+
+/* navbar override to match jungle theme */
+
+.navbar {
+  background: linear-gradient(90deg, var(--nav-1), var(--nav-2)) !important;
+  box-shadow: 0 6px 18px rgba(2,8,4,0.6);
+}
+
+/* navbar text uses the accent color for better brand alignment */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: var(--accent) !important;
+}
+
+/* make brand use display font */
+.navbar .navbar-brand {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+/* headings use the same accent color */
+h1, h2, h3 {
+  color: var(--accent);
+}
+
+/* make primary buttons use the accent leaf color */
+.btn-primary {
+  background-color: var(--accent) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  color: #07320f !important;
+}
+.btn-primary:hover {
+  background-color: #e6c84a !important;
+}
+
+/* responsive images */
+img.responsive {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
 }

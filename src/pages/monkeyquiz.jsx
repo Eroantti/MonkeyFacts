@@ -105,7 +105,7 @@ export default function MonkeyQuiz() {
   }, []);
 
   if (questions.length === 0) {
-    return <div style={{ padding: 16 }}>Loading quiz...</div>;
+    return <div className="card-style p-3">Loading quiz...</div>;
   }
 
   function handleSelect(i) {
@@ -153,59 +153,54 @@ export default function MonkeyQuiz() {
   const q = questions[index];
 
   return (
-    <div style={{ padding: 16 }}>
+    <div className="card-style p-3">
       <h1>Monkey Quiz</h1>
-      <p>
+      <p className="muted">
         Question {index + 1} / {questions.length} — about: <strong>{q.monkey}</strong>
       </p>
-      <p style={{ marginTop: 8 }}>{q.question}</p>
+      <p className="mt-2">{q.question}</p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
+      <div className="d-flex flex-column gap-2 mt-3">
         {q.options.map((opt, i) => {
           const isSelected = selected === i;
           const isCorrect = q.correct === i;
-          const background =
+          const base = "list-group-item d-flex justify-content-between align-items-center";
+          const variant =
             selected == null
-              ? "#f0f0f0"
+              ? "bg-light"
               : isCorrect
-              ? "#c8e6c9"
+              ? "bg-success"
               : isSelected
-              ? "#ffcdd2"
-              : "#f0f0f0";
+              ? "bg-danger"
+              : "bg-light";
+
           return (
             <button
               key={i}
               onClick={() => handleSelect(i)}
               disabled={selected !== null}
-              style={{
-                padding: "10px 12px",
-                textAlign: "left",
-                background,
-                color: "#000",            // changed: make answer text black
-                border: "1px solid #ccc",
-                borderRadius: 6,
-                cursor: selected === null ? "pointer" : "default"
-              }}
+              className={`${base} ${variant}`}
+                style={{ borderRadius: 6, border: '1px solid rgba(0,0,0,0.08)', textAlign: 'left', color: '#000' }}
             >
-              {opt}
+              <span>{opt}</span>
             </button>
           );
         })}
       </div>
 
-      <div style={{ marginTop: 16 }}>
+      <div className="mt-3">
         {selected !== null ? (
           <>
             <p>
               {selected === q.correct ? "Correct!" : `Wrong — correct answer: ${q.options[q.correct]}`}
             </p>
-            <button onClick={handleNext} style={{ marginRight: 8 }}>
+            <button className="btn btn-primary me-2" onClick={handleNext}>
               {index + 1 === questions.length ? "Finish" : "Next"}
             </button>
-            <button onClick={handleRestart}>Restart</button>
+            <button className="btn btn-outline-secondary" onClick={handleRestart}>Restart</button>
           </>
         ) : (
-          <p style={{ color: "#666" }}>Select an answer to continue.</p>
+          <p className="muted">Select an answer to continue.</p>
         )}
       </div>
     </div>
