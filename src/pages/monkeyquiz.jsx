@@ -88,11 +88,12 @@ export default function MonkeyQuiz() {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  // For monkey image
+  const [monkeyImg, setMonkeyImg] = useState(null);
+  const [imgLoading, setImgLoading] = useState(false);
 
   useEffect(() => {
-    // prepare a random quiz of 5 questions
     const picked = shuffleArray(ALL_QUESTIONS).slice(0, 5).map((q) => {
-      // shuffle options while keeping track of correct index
       const opts = shuffleArray(q.options);
       const correctIndex = opts.indexOf(q.options[q.correct]);
       return { ...q, options: opts, correct: correctIndex };
@@ -103,6 +104,19 @@ export default function MonkeyQuiz() {
     setScore(0);
     setFinished(false);
   }, []);
+
+  // Fetch monkey image for current question
+  useEffect(() => {
+    if (!questions.length) return;
+    const monkey = questions[index].monkey;
+    setImgLoading(true);
+    setMonkeyImg(null);
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(monkey)}`)
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(data => setMonkeyImg(data.thumbnail?.source || null))
+      .catch(() => setMonkeyImg(null))
+      .finally(() => setImgLoading(false));
+  }, [questions, index]);
 
   if (questions.length === 0) {
     return <div className="card-style p-3">Loading quiz...</div>;
@@ -142,6 +156,9 @@ export default function MonkeyQuiz() {
     return (
       <div style={{ padding: 16 }}>
         <h1>Monkey Quiz — Results</h1>
+        <div className="mb-3" style={{textAlign: 'center'}}>
+          <img src="/monkeyparty.jpg" alt="Monkey party" style={{ width: 680, maxWidth: '100%', borderRadius: 10, marginBottom: 16 }} />
+        </div>
         <p>
           Score: {score} / {questions.length}
         </p>
@@ -158,6 +175,11 @@ export default function MonkeyQuiz() {
       <p className="muted">
         Question {index + 1} / {questions.length} — about: <strong>{q.monkey}</strong>
       </p>
+      {imgLoading ? (
+        <p>Loading image...</p>
+      ) : monkeyImg ? (
+        <div className="mb-3"><img src={monkeyImg} alt={q.monkey} style={{ width: 320, maxWidth: '100%', borderRadius: 8, objectFit: 'cover' }} /></div>
+      ) : null}
       <p className="mt-2">{q.question}</p>
 
       <div className="d-flex flex-column gap-2 mt-3">
@@ -206,4 +228,3 @@ export default function MonkeyQuiz() {
     </div>
   );
 }
-// ...existing code...
